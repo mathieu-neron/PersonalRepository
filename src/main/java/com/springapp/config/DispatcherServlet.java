@@ -15,7 +15,7 @@ public class DispatcherServlet extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {ServletConfig.class};
+        return new Class<?>[] {AppConfig.class};
     }
 
     @Override
