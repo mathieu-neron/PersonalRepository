@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -jar  target/AppDirectChallenge-1.0-SNAPSHOT.war

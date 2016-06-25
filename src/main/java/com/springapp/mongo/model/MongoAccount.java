@@ -1,7 +1,6 @@
-package com.springapp.model.dto;
+package com.springapp.mongo.model;
 
 
-import com.springapp.model.User;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

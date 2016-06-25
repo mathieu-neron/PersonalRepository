@@ -1,6 +1,6 @@
 package com.springapp.model;
 
-import com.springapp.model.dto.MongoUser;
+import com.springapp.mongo.model.MongoUser;
 
 import java.io.Serializable;
 import java.util.Map;

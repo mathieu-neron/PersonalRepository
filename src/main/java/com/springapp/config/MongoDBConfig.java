@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * Created by Mathieu on 6/22/2016.
  */
 @Configuration
-@EnableMongoRepositories(basePackages = { "com.springapp.repository" })
+@EnableMongoRepositories(basePackages = {"com.springapp.mongo.repository"})
 public class MongoDBConfig extends AbstractMongoConfiguration {
     @Override
     protected String getDatabaseName() {
@@ -24,6 +24,6 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
 
     @Override
     protected String getMappingBasePackage() {
-        return "com.springapp.model.dto";
+        return "com.springapp.mongo";
     }
 }

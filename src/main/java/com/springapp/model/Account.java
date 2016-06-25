@@ -1,6 +1,6 @@
 package com.springapp.model;
 
-import com.springapp.model.dto.MongoAccount;
+import com.springapp.mongo.model.MongoAccount;
 
 import java.io.Serializable;
 import java.util.ArrayList;

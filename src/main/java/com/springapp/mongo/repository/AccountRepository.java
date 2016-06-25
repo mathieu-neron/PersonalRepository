@@ -1,11 +1,11 @@
-package com.springapp.repository;
+package com.springapp.mongo.repository;
 
-import com.springapp.model.dto.MongoAccount;
+import com.springapp.mongo.model.MongoAccount;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Created by Mathieu on 6/21/2016.
  */
 public interface AccountRepository extends MongoRepository<MongoAccount, String> {
-    public MongoAccount findByAccountIdentifier(String accountIdentifier);
+    MongoAccount findByAccountIdentifier(String accountIdentifier);
 }

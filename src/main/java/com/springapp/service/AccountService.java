@@ -2,10 +2,10 @@ package com.springapp.service;
 
 import com.springapp.model.Account;
 import com.springapp.model.User;
-import com.springapp.model.dto.MongoAccount;
-import com.springapp.model.dto.MongoUser;
-import com.springapp.repository.AccountRepository;
-import com.springapp.repository.UserRepository;
+import com.springapp.mongo.model.MongoAccount;
+import com.springapp.mongo.model.MongoUser;
+import com.springapp.mongo.repository.AccountRepository;
+import com.springapp.mongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,12 +97,12 @@ public class AccountService {
     }
 
     private Optional<MongoAccount> findAccountById(String accountId) {
-        Optional<MongoAccount> account = Optional.of(accountRepository.findOne(accountId));
+        Optional<MongoAccount> account = Optional.of(accountRepository.findByAccountIdentifier(accountId));
         return account;
     }
 
     private Optional<MongoUser> findUserById(String userId) {
-        Optional<MongoUser> user = Optional.of(userRepository.findOne(userId));
+        Optional<MongoUser> user = Optional.of(userRepository.findByUuid(userId));
         return user;
     }
 }
