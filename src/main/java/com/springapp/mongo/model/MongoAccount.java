@@ -15,6 +15,7 @@ public class MongoAccount {
     @Id
     private String id;
     private String status;
+    private String edition;
 
     private List<MongoUser> users = new ArrayList<>();
 
@@ -50,5 +51,13 @@ public class MongoAccount {
 
     public void addUser(MongoUser user) {
         users.add(user);
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
     }
 }

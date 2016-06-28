@@ -18,4 +18,8 @@ public class ErrorResult extends Result implements Serializable {
         this.errorCode = errorCode;
         this.message = message;
     }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
 }

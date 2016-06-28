@@ -20,6 +20,24 @@ public class User implements Serializable {
     private String language;
     private Map<String, String> attributes;
 
+    public User(String id,
+                String uuid,
+                String openId,
+                String email,
+                String firstName,
+                String lastName,
+                String language,
+                Map<String, String> attributes) {
+        this.id = id;
+        this.uuid = uuid;
+        this.openId = openId;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.language = language;
+        this.attributes = attributes;
+    }
+
     public User(MongoUser user) {
         super();
         this.id = user.getId();
@@ -49,5 +67,9 @@ public class User implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 }

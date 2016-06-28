@@ -14,4 +14,12 @@ public class Order implements Serializable {
     private String addonOfferingCode;
     private String pricingDuration;
     private List<OrderItem> items = new ArrayList<>();
+
+    public String getEditionCode() {
+        return editionCode;
+    }
+
+    public void setEditionCode(String editionCode) {
+        this.editionCode = editionCode;
+    }
 }

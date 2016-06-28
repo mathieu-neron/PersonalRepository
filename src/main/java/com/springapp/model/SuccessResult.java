@@ -1,7 +1,5 @@
 package com.springapp.model;
 
-import com.springapp.model.enums.ErrorCode;
-
 import java.io.Serializable;
 
 /**
@@ -19,5 +17,9 @@ public class SuccessResult extends Result implements Serializable {
     public SuccessResult(String accountIdentifier) {
         this();
         this.accountIdentifier = accountIdentifier;
+    }
+
+    public String getAccountIdentifier() {
+        return accountIdentifier;
     }
 }

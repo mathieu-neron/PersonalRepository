@@ -11,4 +11,8 @@ public abstract class Result implements Serializable {
     private static final long serialVersionUID = -8812416854592034015L;
 
     protected boolean success;
+
+    public Boolean isSuccess() {
+        return success;
+    }
 }

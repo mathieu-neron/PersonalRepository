@@ -12,4 +12,12 @@ public class Notice implements Serializable {
 
     private NoticeType type;
     private String message;
+
+    public NoticeType getType() {
+        return type;
+    }
+
+    public void setType(NoticeType type) {
+        this.type = type;
+    }
 }

@@ -19,7 +19,7 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        return new MongoClient();
+        return new Mongo();
     }
 
     @Override

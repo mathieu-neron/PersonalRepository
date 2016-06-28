@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SubscriptionValidatorService {
-    public void validateSubscriptionStatusChange(SubscriptionStatus currentStatus, SubscriptionStatus newStatus) {
-        if (!SubscriptionStatus.possibleStatusChange.get(currentStatus).contains(newStatus)) {
-            throw new RuntimeException();
+    public Boolean validateSubscriptionStatusChange(SubscriptionStatus currentStatus, SubscriptionStatus newStatus) {
+        if (SubscriptionStatus.possibleStatusChange.get(currentStatus).contains(newStatus)) {
+            return true;
         }
+        return false;
     }
 }

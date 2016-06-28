@@ -17,6 +17,16 @@ public class Account implements Serializable {
     private String status;
     private List<User> users = new ArrayList<>();
 
+    public Account(String id) {
+        this.id = id;
+    }
+
+    public Account(String id, String status, List<User> users) {
+        this.id = id;
+        this.status = status;
+        this.users = users;
+    }
+
     public Account(MongoAccount account) {
         super();
         this.id = account.getId();
@@ -43,4 +53,13 @@ public class Account implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }
