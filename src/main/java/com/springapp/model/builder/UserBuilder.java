@@ -1,4 +1,4 @@
-package com.springapp.builder;
+package com.springapp.model.builder;
 
 import com.springapp.model.User;
 

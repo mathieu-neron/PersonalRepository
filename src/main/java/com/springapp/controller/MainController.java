@@ -1,12 +1,20 @@
 package com.springapp.controller;
 
-import com.springapp.mongo.model.MongoAccount;
+import com.springapp.model.Account;
+import com.springapp.model.User;
+import com.springapp.model.builder.AccountBuilder;
+import com.springapp.model.builder.UserBuilder;
+import com.springapp.mongo.model.MongoUser;
 import com.springapp.mongo.repository.AccountRepository;
+import com.springapp.mongo.repository.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/")
@@ -14,6 +22,8 @@ public class MainController {
 
 	@Autowired
 	private AccountRepository accountRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -23,27 +33,21 @@ public class MainController {
 	}
 
 	@RequestMapping(value= "/test", method = RequestMethod.GET)
-	public void printTest(ModelMap model) {
+	public void printTest() {
 
 		accountRepository.deleteAll();
+		userRepository.deleteAll();
 
-		// save a couple of customers
-		accountRepository.save(new MongoAccount("testsss"));
-		accountRepository.save(new MongoAccount("wwwwaa"));
-		accountRepository.save(new MongoAccount("wwwsss"));
-		accountRepository.save(new MongoAccount("eeddww"));
-
-		// fetch all customers
-		System.out.println("Customers found with findAll():");
-		System.out.println("-------------------------------");
-		for (MongoAccount account : accountRepository.findAll()) {
-			System.out.println(account);
+		// save a couple of accounts
+		for (int i= 0; i<5; i++) {
+			User user = new UserBuilder().withId(new ObjectId().toString()).withOpenId("openId").withUuid("uuid").withEmail("mathieu.neron@appdirect.com").withFirstName("Mathieu").withLastName("Neron").withLanguage("FR").build();
+			Account account = new AccountBuilder().withStatus("ACTIVE").withUsers(Collections.singletonList(user)).build();
+			accountRepository.save(account.toMongoAccount());
 		}
-		System.out.println();
 
-		// fetch an individual customer
-		System.out.println("Customer found with findByFirstName('Alice'):");
-		System.out.println("--------------------------------");
-		System.out.println(accountRepository.findById("Alice"));
+		for (MongoUser mongoUser : userRepository.findAll()) {
+			userRepository.delete(mongoUser);
+		}
+
 	}
 }

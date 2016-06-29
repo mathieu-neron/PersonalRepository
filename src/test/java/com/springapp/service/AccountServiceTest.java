@@ -1,6 +1,6 @@
 package com.springapp.service;
 
-import com.springapp.builder.UserBuilder;
+import com.springapp.model.builder.UserBuilder;
 import com.springapp.model.Account;
 import com.springapp.model.ErrorResult;
 import com.springapp.model.Result;

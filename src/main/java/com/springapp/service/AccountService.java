@@ -1,6 +1,10 @@
 package com.springapp.service;
 
-import com.springapp.model.*;
+import com.springapp.model.Account;
+import com.springapp.model.ErrorResult;
+import com.springapp.model.Result;
+import com.springapp.model.SuccessResult;
+import com.springapp.model.User;
 import com.springapp.model.enums.ErrorCode;
 import com.springapp.model.enums.SubscriptionStatus;
 import com.springapp.mongo.model.MongoAccount;
@@ -8,11 +12,13 @@ import com.springapp.mongo.model.MongoUser;
 import com.springapp.mongo.repository.AccountRepository;
 import com.springapp.mongo.repository.UserRepository;
 import com.springapp.service.validator.SubscriptionValidatorService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -37,6 +43,7 @@ public class AccountService {
     @Transactional
     public Result createAccount(User creator) {
         MongoUser mongoCreator = creator.toMongoUser();
+        mongoCreator.setId(new ObjectId().toString());
         userRepository.save(mongoCreator);
 
         MongoAccount mongoAccount = new MongoAccount();
@@ -76,12 +83,15 @@ public class AccountService {
         Optional<MongoAccount> mongoAccountOptional = findAccountById(accountId);
         if (mongoAccountOptional.isPresent()) {
             MongoAccount mongoAccount = mongoAccountOptional.get();
-            MongoUser mongoUser = mongoAccount.getUsers().get(0);
+            List<MongoUser> mongoUsers = mongoAccount.getUsers();
 
-            Result result = deleteUser(mongoUser.getUuid());
+            Result result;
 
-            if (!result.isSuccess()) {
-                return result;
+            for (MongoUser mongoUser : mongoUsers) {
+                result = deleteUser(mongoUser.getUuid());
+                if (!result.isSuccess()) {
+                    return result;
+                }
             }
 
             accountRepository.delete(mongoAccountOptional.get());

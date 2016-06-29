@@ -3,9 +3,11 @@ package com.springapp.config;
 import com.springapp.security.DefaultLogoutSuccessHandler;
 import com.springapp.security.DefaultUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -31,33 +33,27 @@ import java.util.HashMap;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@ComponentScan("com.springapp.security")
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DefaultLogoutSuccessHandler logoutSuccessHandler;
+    private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
 
     @Autowired
     private DefaultUserDetailsService userDetailsService;
 
-    @Value("${oauth.consumer.key}")
-    private String consumerKey;
-
-    @Value("${oauth.consumer.secret}")
-    private String consumerSecret;
+    private String consumerKey = "appdirectchallenge-122459";
+    private String consumerSecret = "PTgZETLcganA";
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/*.{js,html}", "/webjars/**");
+        web.ignoring().antMatchers("/*.{jsp}", "/resources/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.logout()
-                .logoutUrl("/logout")
-                .logoutSuccessHandler(logoutSuccessHandler);
 
-        // deactivate Cross-Site Request Forgery
         http.csrf().disable();
 
         http.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated();
@@ -67,6 +63,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login/openid")
                 .permitAll()
                 .defaultSuccessUrl("/");
+
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(defaultLogoutSuccessHandler);
 
         http.addFilterBefore(oAuthProviderProcessingFilter(), OpenIDAuthenticationFilter.class);
     }
@@ -79,7 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             protected boolean requiresAuthentication(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) {
 
-                if (new AntPathRequestMatcher("/api/notification/**").matches(request)) {
+                if (new AntPathRequestMatcher("/user/**").matches(request) ||
+                        new AntPathRequestMatcher("/subscription/**").matches(request)) {
                     OAuthProcessingFilterEntryPoint authenticationEntryPoint = new OAuthProcessingFilterEntryPoint();
                     setAuthenticationEntryPoint(authenticationEntryPoint);
                     String realmName = request.getRequestURL().toString();
@@ -120,6 +121,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         resource.setConsumerKey(consumerKey);
         resource.setSharedSecret(new SharedConsumerSecretImpl(consumerSecret));
         return resource;
+    }
+
+    @Bean(name="myAuthenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user").password("password").authorities("ROLE_USER");
     }
 
 }

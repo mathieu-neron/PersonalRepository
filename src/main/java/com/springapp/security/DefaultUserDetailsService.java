@@ -13,9 +13,11 @@ import java.util.Collections;
 @Component
 public class DefaultUserDetailsService implements UserDetailsService, AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
 
+    private static final String ROLE_USER = "ROLE_USER";
+
     @Override
     public UserDetails loadUserByUsername(String openId) {
-        return new User(openId, "", Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+        return new User(openId, "", Collections.singletonList(new SimpleGrantedAuthority(ROLE_USER)));
     }
 
     @Override

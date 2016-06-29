@@ -7,15 +7,15 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * Created by Mathieu on 6/16/2016.
  */
 @Configuration
-public class DispatcherServlet extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {RootConfig.class};
+        return new Class[] { MongoDBConfig.class, SecurityConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {AppConfig.class};
+        return new Class[] { AppConfig.class };
     }
 
     @Override

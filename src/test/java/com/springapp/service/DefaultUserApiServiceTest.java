@@ -1,6 +1,6 @@
 package com.springapp.service;
 
-import com.springapp.builder.UserBuilder;
+import com.springapp.model.builder.UserBuilder;
 import com.springapp.model.*;
 import com.springapp.model.enums.EventType;
 import org.junit.Before;

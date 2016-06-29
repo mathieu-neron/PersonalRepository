@@ -13,17 +13,19 @@ import java.net.URISyntaxException;
 
 @Component
 public class DefaultLogoutSuccessHandler implements LogoutSuccessHandler {
-
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        if (authentication.getPrincipal() != null && authentication.getPrincipal() instanceof User) {
-            final String openIdUrl = ((User) authentication.getPrincipal()).getUsername();
-            try {
-                URI uri = new URI(openIdUrl);
-                response.sendRedirect(String.format("%s://%s/applogout?openid=%s", uri.getScheme(), uri.getHost(), openIdUrl));
-            } catch (URISyntaxException e) {
-                response.sendRedirect(String.format("https://www.appdirect.com/applogout?openid=%s", openIdUrl));
-            }
+        if (authentication.getPrincipal() == null || !(authentication.getPrincipal() instanceof User)) {
+            return;
+        }
+
+        final String openIdUrl = ((User) authentication.getPrincipal()).getUsername();
+        try {
+            URI uri = new URI(openIdUrl);
+            final String logoutUrl = String.format("%s://%s/applogout?openid=%s", uri.getScheme(), uri.getHost(), openIdUrl);
+            response.sendRedirect(logoutUrl);
+        } catch (URISyntaxException e) {
+            response.sendRedirect(String.format("https://www.appdirect.com/applogout?openid=%s", openIdUrl));
         }
     }
 }

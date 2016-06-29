@@ -1,7 +1,9 @@
 package com.springapp.mongo.model;
 
 
+import com.springapp.mongo.cascade.CascadeSave;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ public class MongoAccount {
     private String status;
     private String edition;
 
+    @DBRef
+    @CascadeSave
     private List<MongoUser> users = new ArrayList<>();
 
     public MongoAccount() {}
