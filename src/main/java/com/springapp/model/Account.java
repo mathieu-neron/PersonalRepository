@@ -17,6 +17,9 @@ public class Account implements Serializable {
     private String status;
     private List<User> users = new ArrayList<>();
 
+    private Account() {
+    }
+
     public Account(String id) {
         this.id = id;
     }

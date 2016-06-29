@@ -20,6 +20,9 @@ public class User implements Serializable {
     private String language;
     private Map<String, String> attributes;
 
+    private User() {
+    }
+
     public User(String id,
                 String uuid,
                 String openId,
